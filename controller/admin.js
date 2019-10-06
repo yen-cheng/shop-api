@@ -9,15 +9,16 @@ exports.postProduct = (req, res, next) => {
     const price = req.body.price;
     const imgUrl = req.body.imgUrl;
     const description = req.body.description;
-    Product.create({
+
+    req.user.createProduct({
         title: title,
         price: price,
         imgUrl: imgUrl,
         description: description
     }).then( result => {
-        console.log('create product success!');
+        console.log('Create product success!');
         res.status(201).json({
-            message: "success"
+            message: "Create product success!"
         });
     }).catch(err => {
         console.log(err);

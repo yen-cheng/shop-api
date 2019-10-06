@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const sequelize = require('./util/database');
+const Product = require('./models/product');
+const User = require('./models/user');
 
 const adminRoutes = require('./routes/admin');
 
@@ -16,10 +18,38 @@ app.use((req, res, next) => {
     next();
 })
 
+app.use((req, res, next) => {
+    User.findAll({
+        where: {
+            id: 1
+    }}).then( user => {
+        req.user = user[0];
+        next();
+    }).catch( err => {
+        console.log(err);
+    });
+})
+
 app.use('/admin', adminRoutes);
 
-sequelize.sync().then( result => {
-    console.log(result);
+Product.belongsTo(User);
+User.hasMany(Product);
+
+sequelize
+    //.sync({force: true})
+    .sync()
+    .then( result => {
+        return User.findAll({where: {id: 1}});
+}).then( user => {
+    if(user.length == 0){
+        return User.create({
+            name: 'yen-cheng',
+            email: 'dummy@gmail.com',
+            password: 'dummypwd'
+        })
+    }
+    return user;
+}).then( result => {
     app.listen(8080);
 }).catch( err => {
     console.log(err);
