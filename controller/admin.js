@@ -3,6 +3,11 @@ const Product = require('../models/product');
 exports.getProducts = (req, res, next) => {
     Product.findAll()
     .then( products => {
+        if(!products.length){
+            const error = new Error("Products not found!");
+            error.satatusCode = 404;
+            throw error;
+        }
         res.status(200).json({ 
             data: {
                 products: products
@@ -11,7 +16,10 @@ exports.getProducts = (req, res, next) => {
         });
     })
     .catch(err => {
-        console.log(err);
+        if(!err.satatusCode){
+            err.satatusCode = 500;
+        }
+        next(err);
     })
 }
 
@@ -19,21 +27,23 @@ exports.getProduct = (req, res, next) => {
     const proId = req.params.productId;
     Product.findAll({where: {id: proId}})
     .then(products => {
-        if(products.length == 0){
-            res.status(500).json({
-                message: "product not found"
-            })
-        }else{
-            res.status(200).json({
-                data: {
-                    product: products[0]
-                },
-                message: "get product success"
-            })
+        if(!products.length){
+            const error = new Error("Single product not found!")
+            error.satatusCode = 404;
+            throw error;
         }
+        res.status(200).json({
+            data: {
+                product: products[0]
+            },
+            message: "get single product success"
+        })
     })
     .catch(err => {
-        console.log(err);
+        if(!err.satatusCode){
+            err.satatusCode = 500;
+        }
+        next(err);
     });
 }
 
@@ -53,7 +63,10 @@ exports.postProduct = (req, res, next) => {
             message: "Create product success!"
         });
     }).catch(err => {
-        console.log(err);
+        if(!err.satatusCode){
+            err.satatusCode = 500;
+        }
+        next(err);
     })
 }
 
@@ -66,6 +79,11 @@ exports.editProduct = (req, res, next) => {
     const updateDescription = req.body.description;
     Product.findAll({where: {id: proId}})
     .then(products => {
+        if(!products.length){
+            const error = new Error("Product to add not found!")
+            error.satatusCode = 404;
+            throw error;
+        }
         products[0].title = updateTitle;
         products[0].price = updatePrice;
         products[0].imgUrl = updateImgUrl;
@@ -73,11 +91,14 @@ exports.editProduct = (req, res, next) => {
         return products[0].save();
     })
     .then(result => {
-        res.status(201).json({
-            message: "Update product success"
+        res.status(200).json({
+            message: "Edit product success!"
         });
     })
     .catch(err => {
-        console.log(err);
+        if(!err.satatusCode){
+            err.satatusCode = 500;
+        }
+        next(err);
     })
 }

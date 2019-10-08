@@ -32,6 +32,13 @@ app.use((req, res, next) => {
 
 app.use('/admin', adminRoutes);
 
+app.use((error, req, res, next) => {
+    console.log(error);
+    const status = error.status || 500;
+    const message = error.message;
+    res.status(status).json({message: message});
+})
+
 Product.belongsTo(User);
 User.hasMany(Product);
 
