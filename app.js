@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 
 const sequelize = require('./util/database');
 const Product = require('./models/product');
-const TodoList = require('./models/todoList');
 const User = require('./models/user');
 
 const adminRoutes = require('./routes/admin');

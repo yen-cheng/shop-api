@@ -1,21 +1,17 @@
 const express = require('express');
 
-const adminControllers = require('../controller/admin');
+const adminProductControllers = require('../controller/admin/product');
+const adminTodolistControllers = require('../controller/admin/todolist');
 
 const router = express.Router();
 
-router.get('/products', adminControllers.getProducts);
+router.get('/products', adminProductControllers.getProducts);
+router.get('/product/:productId', adminProductControllers.getProduct);
+router.post('/product', adminProductControllers.postProduct);
+router.put('/product/:productId', adminProductControllers.editProduct);
 
-router.get('/product/:productId', adminControllers.getProduct);
-
-router.post('/product', adminControllers.postProduct);
-
-router.put('/product/:productId', adminControllers.editProduct);
-
-router.get('/todolists',adminControllers.getTodoLists);
-
-router.post('/todolist',adminControllers.postTodoList);
-
-router.delete('/todolist/:id',adminControllers.deleteTodoList);
+router.get('/todolists',adminTodolistControllers.getTodoLists);
+router.post('/todolist',adminTodolistControllers.postTodoList);
+router.delete('/todolist/:id',adminTodolistControllers.deleteTodoList);
 
 module.exports = router;
