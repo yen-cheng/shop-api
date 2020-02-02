@@ -12,6 +12,7 @@ router.put('/product/:productId', adminProductControllers.editProduct);
 
 router.get('/todolists',adminTodolistControllers.getTodoLists);
 router.post('/todolist',adminTodolistControllers.postTodoList);
-router.delete('/todolist/:id',adminTodolistControllers.deleteTodoList);
+router.put('/todolist/:todoId',adminTodolistControllers.editTodoList);
+router.delete('/todolist/:todoId',adminTodolistControllers.deleteTodoList);
 
 module.exports = router;

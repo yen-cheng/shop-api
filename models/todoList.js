@@ -13,8 +13,15 @@ const TodoList = sequelize.define('todolist', {
         type: Sequelize.STRING,
         allowNull: false
     },
+    detail:{
+        type: Sequelize.STRING
+    },
+    type:{
+        type: Sequelize.STRING,
+        allowNull: false
+    },
     status: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false
     }
 });

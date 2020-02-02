@@ -52,19 +52,19 @@ exports.postProduct = (req, res, next) => {
 
 exports.editProduct = (req, res, next) => {
     const proId = req.params.productId;
-    const updateTitle = req.body.title;
-    const updatePrice = req.body.price;
-    const updateImgUrl = req.body.imgUrl;
-    const updateDescription = req.body.description;
+    const newTitle = req.body.title;
+    const newPrice = req.body.price;
+    const newImgUrl = req.body.imgUrl;
+    const newDescription = req.body.description;
 
     Product.findAll({where: {id: proId}})
     .then(products => {
         commonMethod.checkHasDataAndThrowErr(products);
 
-        products[0].title = updateTitle;
-        products[0].price = updatePrice;
-        products[0].imgUrl = updateImgUrl;
-        products[0].description = updateDescription;
+        products[0].title = newTitle;
+        products[0].price = newPrice;
+        products[0].imgUrl = newImgUrl;
+        products[0].description = newDescription;
         return products[0].save();
     })
     .then(result => {
