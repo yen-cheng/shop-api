@@ -2,6 +2,7 @@
 
 This api is build for shop-site-vue project
 
+https://yencheng-shop-api.herokuapp.com/
 ---
 
 ### get
